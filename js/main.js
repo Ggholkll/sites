@@ -28,14 +28,10 @@ const menuParente = document.querySelectorAll('.manu-page__parent>a ') ;
 const elementPages = document .querySelector('.page__side') ; 
 const elementSlider = document.querySelector('.main-slider__dotts') 
 const elementMenuPage = document.querySelector('.menu__blocks') 
-const elementNews = document.querySelector('.product-info__body') ; 
+const elementNews = document.querySelector('.news__content_body') ; 
 const elementPagesSide = document.querySelector('.page__body')
-const elementContact = document.querySelector('.top-header__contact') 
-const elementForm = document.querySelector('.top-header-form__container')
-const elementSearch = document.querySelector('.page__search')
-const elementPageSide = document.querySelector('.mainslider__slide') ;  
-const elementItemMenu = document.querySelector('.top-header__column') ;
-const elementToheaderColumnsMenus = document.querySelector('.top-header__column-menus')  
+const elementPageSide = document.querySelector('.page__container') ; 
+const elementItemMenu = document.querySelector('.top-header__column') ; 
 const elementLogo = document.querySelector('.top-header__logo'); 
 const headerContent = document.querySelector('.top-header__content')
 window.addEventListener('resize' , function() {
@@ -49,17 +45,19 @@ window.addEventListener('resize' , function() {
         })
       }
   }
-      Width <= 992 ?  
-     functionehead( elementItemMenu.after(elementLogo)  , headerContent.append(elementContact),  elementContact.classList.add('top-header__columns') , elementForm.append(elementSearch))  
-      : 
-      functionehead( headerContent.prepend(elementLogo) , elementToheaderColumnsMenus.append(elementContact) , elementContact.classList.remove('top-header__columns') , elementLogo.append(elementSearch) )
+      Width <= 992 ? 
+     functionehead( elementItemMenu.after(elementLogo)) : 
+      
+      functionehead( headerContent.prepend(elementLogo))
 
 
       
 })
-
-function functionehead(sids , long , label , menu) {
-  return sids , long  , label ,  menu ; 
+function functioneWin (side , a) {
+   return side.append(a)
+}
+function functionehead(sids  ) {
+  return sids;
   
 }
 const elemen__burger = document.querySelector('.menu-page__lines') ; 
@@ -71,14 +69,15 @@ elemen__burger.addEventListener('click' , function () {
   menuPageBleck.classList.toggle('__active') ; 
 })
 document.addEventListener('click' , function(e) {
-        if (e.target === elemen__burger ||  e.target.closest(".menu-page__lines span")) {
+        if (e.target === elemen__burger || e.target.closest(".menu-page__lines span")) {
           document.body.style.overflow = 'hidden' ; 
         } 
-        if (!elemen__burger.classList.contains('_actives') ) {
+        if (!elemen__burger.classList.contains('_actives')) {
             document.body.style.overflow = 'auto' ;
           
         }
 })
+
 let searchSe = document.querySelector(".search-page__title") ;
 const catigories = document.querySelector(".categories-search") 
 let active , interval , i  , intervalTwo , q  , intervalTwodbl ,  intervaldble , Wid ;
@@ -103,7 +102,45 @@ searchSe.addEventListener('click' , function (e) {
 }
 }) 
 
+var slider = document.getElementById('slider'); 
+ 
+noUiSlider.create(slider, { 
+    start: [0, 1000],
+    connect: true,
+    tooltips: [wNumb({ decimals: 0 }) , wNumb({ decimals: 0 }) ]  ,
+    range: {
+        'min': 0,
+        'max': 1000 
+    }
+});
+const elementPriceStart = document.getElementById('price-start') ; 
+const elementPriceEnd = document.getElementById('price-end') ; 
 
+elementPriceStart.addEventListener('input', functionWinValues)
+elementPriceEnd.addEventListener('input', functionWinValues);
+function functionWinValues () {
+  let elementPriceValueStart ; 
+  let elementPriceValueEnd ; 
+  if (elementPriceStart.value != '' ) {
+        elementPriceValueStart = elementPriceStart.value ; 
+  }
+
+  if (elementPriceEnd.value != '' ) {
+      elementPriceValueEnd = elementPriceEnd.value ; 
+  }
+
+  slider.noUiSlider.set([elementPriceValueStart, elementPriceValueEnd ])
+}
+const elementSectionLabel = document.querySelector('._spoller') ; 
+const sectionHidden = document.querySelector('.section__body-hidden')
+elementSectionLabel.addEventListener('click' , function ()  {
+    elementSectionLabel.classList.toggle('_active')
+    sectionHidden.classList.toggle('__active')  ; 
+    const elementChakbox  = document.querySelectorAll('.section-filter__check') ; 
+    if (elementChakbox.length > 5 ) {
+        sectionHidden.classList.toggle('__activedbleto')
+    }
+})
 function functione(a ) {
   if (parseInt(getComputedStyle(catigories).getPropertyValue('height')) === a) {
     catigories.classList.add('_activeTwo'); 
@@ -121,7 +158,7 @@ function functione(a ) {
 }
 
 function  functionese(s) {
-  if (parseInt(getComputedStyle(catigories).getPropertyValue('height')) === s ) { 
+  if (parseInt(getComputedStyle(catigories).getPropertyValue('height')) === s ) {
     catigories.classList.remove('_activeTwo'); 
  
     searchSe.classList.remove('_active')
@@ -134,7 +171,6 @@ function  functionese(s) {
     }
   }
 }
-
 let checkboxFormsCateogories = document.querySelectorAll('.categories-search__checkbox') ; 
 console.log(checkboxFormsCateogories)
 for (let i = 0 ; i < checkboxFormsCateogories.length ; i++ ) {
@@ -167,80 +203,9 @@ let swiperBody =  new Swiper('.mainslider__body' , {
     } ,
    
 })
-const productINfoItems = document.querySelectorAll('.info-product__item') ;
-const elementBlockText = document.querySelectorAll('._tabs-block') 
-productINfoItems.forEach(item => {
-  let items = item ; 
-   item.addEventListener('click' , function () {
-    productINfoItems.forEach(item => {
-      item.classList.remove('_active') ; 
-    })
-    elementBlockText.forEach(item => {
-      item.classList.remove('__active')
-    })
-    item.classList.add('_active') ; 
-    let dataIndex = parseInt(item.getAttribute('data-item'))
-    elementBlockText[dataIndex].classList.add('__active')
-   })
-})
-const elementQuantityButton = document.querySelectorAll('.quantity__button') ; 
-let getValueNumber ,getNUmber  , getNumbers;
-for (let i = 0 ; i < elementQuantityButton.length ; i++ ) {
-  let elementQuantityButtonClickNUmber = elementQuantityButton[i] ;
-
-    elementQuantityButtonClickNUmber.addEventListener('click' , function () {
-    let getValueAttribute = parseInt(document.querySelector('.quantity__input').innerHTML ) ;
-    if (elementQuantityButtonClickNUmber.classList.contains('quantity__button_plus')) {
-     getValueAttribute++ ;     
-    } else {
-     getValueAttribute-- ; 
-     if (getValueAttribute < 1 ) { 
-        getValueAttribute = 1 ;  
-     }
-    } 
-    document.querySelector('.quantity__input').innerHTML = getValueAttribute ;
-  }) 
- 
-}
-const elementRemoveCompareFilter = document.querySelectorAll('.compare-filter__remove') ;
-const elementRemoveCompareFilterLastChild = document.querySelector('.compare-filter__remove:last-child') ;
-for (let i = 0 ; i < elementRemoveCompareFilter.length;  i++) { 
-  let elementRemoveCompareFilterNUmber = elementRemoveCompareFilter[i] ;   
-    elementRemoveCompareFilterNUmber.addEventListener('click' , function (e) {   
-      elementRemoveCompareFilterNUmber.parentElement.style.display = 'none' ;
-      console.log(elementRemoveCompareFilter)
-       e.preventDefault() ; 
-   });
-
-} 
-document.addEventListener('click' , function () {
-  const elementItemFilter = document.querySelectorAll('.compare-filter__item')
-  for (let i = 0 ; i < elementItemFilter.length ; i++ ) {
-    if (elementItemFilter[i].style.display === 'none') {
-      document.querySelector('.compare-filter').closest('.section-filter__body').style.display = 'none'
-    }
-    if (elementItemFilter[i].style.display !== 'none') {
-      document.querySelector('.compare-filter').closest('.section-filter__body').style.display = 'block'
-    }
-  }
-})
-
-const elementSectionLabel = document.querySelector('._spoller') ; 
-const sectionHidden = document.querySelector('.section__body-hidden')
-elementSectionLabel.addEventListener('click' , function ()  {
-    elementSectionLabel.classList.toggle('_active')
-    sectionHidden.classList.toggle('__active')  ; 
-    const elementChakbox  = document.querySelectorAll('.section-filter__check') ; 
-    if (elementChakbox.length > 5 ) {
-        sectionHidden.classList.toggle('__activedbleto')
-    }
-})
 const elementImage = document.querySelectorAll('.mainslider__image') ; 
 let elementsNumber = document.querySelectorAll('.swiper-pagination-bullet .swiper-number');
 const elementsDottedText = document.querySelectorAll('.mainslider__dotts .swiper-pagination-bullet')
-const elementPageContent = document.querySelector('.page__content') ; 
-const elementPageContainer  = document.querySelector('.page__container') ; 
-elementPageContainer.append(elementPageContent)
 
 
 
@@ -251,38 +216,10 @@ for (let i = 0 ; i < elementsDottedText.length ; i++ ) {
   elementsDottedTextColumn.innerHTML = elementsInnersHTML ; 
 }
 
- let swiperPaginations = new Swiper('.image-product__subslider',  { 
-     obseover: true , 
-    observeParents: true , 
-    slidesPerView: 4  , 
-    spaceBetween: 0 , 
-    speed: 800 ,
-    loop: true ,  
-
-  })
- if (document.querySelector(".image-product__mainslider")) {
-  let productsSlider = new Swiper('.image-product__mainslider', {
-    observer: true , 
-    observeParents: true , 
-    slidesPerView: 1 , 
-    spaceBetween: 0 , 
-    
-    loop: true ,
-     thumbs: {
-      swiper: swiperPaginations 
-    },
-     speed: 800 , 
-  }) 
- 
-
-}
-
 let swiperslider =  new Swiper('.products-slider__item' , {
     obseover: true , 
     loop: true ,
     observeParents: true , 
-    onlyExternal: true ,
-    allowTouchMove: false,
     sliderPerView: 1  , 
     spaceBetween: 0 , 
     autoHeight: true , 
@@ -296,30 +233,8 @@ let swiperslider =  new Swiper('.products-slider__item' , {
       } ,
     },
   }) 
-const elementBurger = document.querySelector('.filter__menu-burger') ; 
-const elementFilterBody = document.querySelector('.filter__body') ;
-elementBurger.addEventListener('click' , function () {
-elementBurger.classList.toggle('_active');
-  elementFilterBody.classList.toggle('_active')
-  
-}) 
-document.addEventListener('click' , function(e) {
-  if (elementBurger.classList.contains('_active')) {
-  setTimeout(function() {
-      elementFilterBody.classList.remove('_active')
-     elementFilterBody.classList.add('__active')    
-  } , 200 )
- } 
- if (!elementBurger.classList.contains('_active')) {
-  elementFilterBody.classList.remove('__active') 
-    setTimeout(function () {
-      elementFilterBody.classList.remove('_active')
-  
-    } , 300)
-      
- }
-})
-  const elementProductLastLink = document.querySelector('.products-slider__laste')
+
+const elementProductLastLink = document.querySelector('.products-slider__laste')
 let elementLastPaginationsSlider , elementLastPaginationsSlide , createElementPer , elementLastPaginationsSliders; 
 document.addEventListener('DOMContentLoaded' , function () { 
  const elementLastPaginations = document.querySelector('.swiper-pagination-bullet:last-child')
@@ -329,16 +244,36 @@ document.addEventListener('DOMContentLoaded' , function () {
   
 
 })
-document.addEventListener('DOMContentLoaded' , function () {
-  localStorage.removeItem('img') ;
-  localStorage.setItem('display' , 'none') 
+
+
+
+const elementRemoveCompareFilter = document.querySelectorAll('.compare-filter__remove') ;
+const elementRemoveCompareFilterLastChild = document.querySelector('.compare-filter__remove:last-child') ;
+for (let i = 0 ; i < elementRemoveCompareFilter.length;  i++) { 
+  let elementRemoveCompareFilterNUmber = elementRemoveCompareFilter[i] ;   
+    elementRemoveCompareFilterNUmber.addEventListener('click' , function (e) {   
+      elementRemoveCompareFilterNUmber.parentElement.style.display = 'none' ;
+      console.log(elementRemoveCompareFilter)
+       e.preventDefault() ; 
+   });
+
+} 
+document.addEventListener('click' , function () {
+  const elementItemFilter = document.querySelectorAll('.compare-filter__item') 
+  for (let i = 0 ; i < elementItemFilter.length ; i++ ) { 
+    if (elementItemFilter[i].style.display === 'none') { 
+      document.querySelector('.compare-filter').closest('.section-filter__body').style.display = 'none'
+    }
+    if (elementItemFilter[i].style.display !== 'none') {
+      document.querySelector('.compare-filter').closest('.section-filter__body').style.display = 'block'
+    }
+  }
 })
 const elementInfoPage = document.querySelector('.products-slider__info_page') ; 
 const elementLasteSlider = document.querySelector('.products-slider__laste');
 const elementProductControls = document.querySelector('.products-slider__controls')
 
-let elementFirstBullet ,  elementPaaginationsFIrsClone , elementClone  ;
- 
+let elementFirstBullet ,  elementPaaginationsFIrsClone , elementClone  ; 
 document.addEventListener("click" , function (e) {
 const elementLastPaginationsNext = document.querySelector('.swiper-pagination-bullet:last-child')
 const elementPaginationsNextFirst = document.querySelector('.swiper-pagination-bullet:first-child') ;
@@ -349,14 +284,14 @@ console.log(elementLastPaginationsSlider)
     if (e.target === elementLastPaginationsNext) {
         elementInfoPage.append(elementLastPaginationsSlider) ;
     }
-      if (e.target === elementLastPaginationsSlider ) {
+      if (e.target === elementLastPaginationsSlider) {
        elementInfoPage.append(elementLastPaginationsSlider) ; 
         document.querySelector('.swiper-pagination-bullet:last-child').click() ;
-        elementProductControls.prepend(elementLasteSlider) ; 
+        elementProductControls.prepend(elementLasteSlider) ;
        functionLastSlider()
             elementClone = document.querySelector('.products-slider__laste span')
      functionCLonNone('flex')
-    } else if (e.target === elementLastPaginationsSlider || elementLastPaginationsNext !== elementLastPaginationsSlider && e.target === elementLastPaginationsNext) {
+    }  else if (e.target === elementLastPaginationsSlider || elementLastPaginationsNext !== elementLastPaginationsSlider && e.target === elementLastPaginationsNext) {
       elementInfoPage.append(elementLastPaginationsSlider) ; 
         document.querySelector('.swiper-pagination-bullet:last-child').previousElementSibling.click() ;
         elementProductControls.prepend(elementLasteSlider) ; 
@@ -364,14 +299,12 @@ console.log(elementLastPaginationsSlider)
             elementClone = document.querySelector('.products-slider__laste span')
      functionCLonNone('flex')
     }
-    function functionLastSlider() {
-       if (!elementLasteSlider.querySelector('span')) { 
-          elementLasteSlider.prepend(elementPaaginationsFIrsClone)  
+    function functionLastSlider () {
+       if (!elementLasteSlider.querySelector('span')) {
+          elementLasteSlider.prepend(elementPaaginationsFIrsClone) 
        
         }
     }
-  
-   
     function functionCLonNone (a) {
        elementClone.style.display = a ;
 
@@ -410,8 +343,8 @@ console.log(elementLastPaginationsSlider)
        elementProductControls.append(elementLasteSlider) ; 
        functionCLonNone('none') ;
     }
-  
-  let windowWidth = Math.max(document.documentElement.offsetWidth , window.innerWidth) ;
+    
+    let windowWidth = Math.max(document.documentElement.offsetWidth , window.innerWidth) ;
   if (windowWidth <= 460) {
     if (elementLasteSlider.querySelector('.__activeLAstBUllet')) {
       elementLasteSlider.style.left = '0' ;
@@ -424,33 +357,6 @@ console.log(elementLastPaginationsSlider)
 
 })
 
-noUiSlider.create(slider, { 
-    start: [0, 1000],
-    connect: true,
-    tooltips: [wNumb({ decimals: 0 }) , wNumb({ decimals: 0 }) ]  ,
-    range: {
-        'min': 0,
-        'max': 1000
-    }
-});
-const elementPriceStart = document.getElementById('price-start') ; 
-const elementPriceEnd = document.getElementById('price-end') ; 
-
-elementPriceStart.addEventListener('input', functionWinValues)
-elementPriceEnd.addEventListener('input', functionWinValues);
-function functionWinValues () {
-  let elementPriceValueStart ; 
-  let elementPriceValueEnd ; 
-  if (elementPriceStart.value != '' ) {
-        elementPriceValueStart = elementPriceStart.value ; 
-  }
-
-  if (elementPriceEnd.value != '' ) {
-      elementPriceValueEnd = elementPriceEnd.value ; 
-  }
-
-  slider.noUiSlider.set([elementPriceValueStart, elementPriceValueEnd ])
-}
   let swipersliders =  new Swiper('.brands-slider__body' , {
     observer: true , 
     loop: true ,
@@ -496,7 +402,7 @@ function functionWinValues () {
 //elementsDotted.append(elementsDotted)
 for (let i = 0 ; i < elementImage.length ; i++ ) {
   let elementImages = elementImage[i].querySelector('img').getAttribute('src') ; 
- // elementsDottedText[i].style.backgroundImage = "url('" + elementImages + "')" ;
+  elementsDottedText[i].style.backgroundImage = "url('" + elementImages + "')" ;
   
 }
 
